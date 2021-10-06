@@ -10,7 +10,7 @@ import styled from "styled-components";
 import RobotsWorking from "@/components/RobotsWorking";
 import startSync from "@/db/startSync";
 
-const syncPage: NextPage = () => {
+const SyncPage: NextPage = () => {
   const router = useRouter();
   const uid = router.query.uid as string;
 
@@ -31,4 +31,4 @@ const syncPage: NextPage = () => {
   );
 };
 
-export default syncPage;
+export default SyncPage;

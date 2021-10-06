@@ -21,9 +21,9 @@ const Check: React.FC<Props> = (props) => {
         <path
           d="M1 7.12903L4.66667 11L12 1"
           stroke={props.color}
-          stroke-opacity="0.8"
-          stroke-width="2"
-          stroke-linecap="round"
+          strokeOpacity="0.8"
+          strokeWidth="2"
+          strokeLinecap="round"
         />
       </svg>
     </span>

@@ -6,7 +6,7 @@ import RobotsWorking from "@/components/RobotsWorking";
 import startSync from "@/db/startSync";
 import getSlugUser from "@/db/getSlugUser";
 
-const syncPage: NextPage = () => {
+const GoPage: NextPage = () => {
   const router = useRouter();
   const slug = router.query.slug as string;
 
@@ -24,4 +24,4 @@ const syncPage: NextPage = () => {
   );
 };
 
-export default syncPage;
+export default GoPage;
