@@ -16,7 +16,7 @@ const LinkPage: NextPage = () => {
 
   const verifyAuthMutation = useMutation(verifyAuth, {
     onSuccess: (user) => {
-      if (user && user.slug) router.push(`/me?uid=${user.id}`);
+      if (user && user.slug) router.push(`/sync?uid=${user.id}`);
       else router.push(`/choose?uid=${user.id}`);
     },
   });

@@ -85,7 +85,7 @@ export async function sync(
 
     let syncedId = user.syncedPlaylistId;
 
-    if (!syncedId) {
+    const createPlaylist = async () => {
       const spotifyResponse = await Spotify.createPlaylist(
         `${user.name.split(" ")[0]}'s Likes`,
         {
@@ -93,8 +93,22 @@ export async function sync(
           public: true,
         }
       );
+      console.log("created", spotifyResponse);
       syncedId = spotifyResponse.body.id;
-      userDoc.ref.update({ syncedPlaylistId: syncedId });
+      await userDoc.ref.update({ syncedPlaylistId: syncedId });
+    };
+
+    // create playlist if no saved synced id
+    if (!syncedId) {
+      await createPlaylist();
+    } else {
+      // check to make sure synced playlist exists, otherwise recreate it
+      try {
+        const playlist = await Spotify.getPlaylist(syncedId);
+        if (!playlist) await createPlaylist();
+      } catch (e) {
+        await createPlaylist();
+      }
     }
 
     const syncedTracks = await getTracksFromPlaylist(syncedId);
@@ -125,7 +139,7 @@ export async function sync(
         await addTracks(tracks.slice(100));
       } else {
         await Spotify.addTracksToPlaylist(syncedId, tracks, {
-          position: 0,
+          position: i,
         });
       }
       return;

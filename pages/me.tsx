@@ -8,7 +8,9 @@ import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import Image from "next/image";
+import Link from "next/link";
 import Fireworks from "@/components/universal/Fireworks";
+import { fadeIn } from "@/lib/animations";
 
 const Live = styled.span`
   color: ${colors.black};
@@ -39,6 +41,20 @@ const Button = styled.a`
   }
 `;
 
+const TitleLink = styled.h1`
+  font-size: 89px;
+  color: ${colors.white};
+  font-weight: 900;
+  margin: 10px 0;
+  text-align: center;
+  transition: all 100ms cubic-bezier(0.21, 0.94, 0.64, 0.99);
+  &:hover {
+    color: ${colors.secondary};
+    cursor: pointer;
+  }
+  ${fadeIn}
+`;
+
 const ButtonText = styled.span`
   margin-left: 10px;
 `;
@@ -57,7 +73,9 @@ const MePage: NextPage = () => {
           <Subtitle>
             Your likelist is <Live>LIVE</Live>
           </Subtitle>
-          <Title>{userQuery.data.slug}.likelist.xyz</Title>
+          <Link href={`https://${userQuery.data.slug}.likelist.xyz`}>
+            <TitleLink>{userQuery.data.slug}.likelist.xyz</TitleLink>
+          </Link>
           <Button href={"https://instagram.com"}>
             <Image
               src="/assets/insta.png"
