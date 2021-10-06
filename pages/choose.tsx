@@ -91,9 +91,14 @@ const ChoosePage: NextPage = () => {
   }, [userQuery.data, inputRef.current]);
 
   useEffect(() => {
-    if (userQuery.data?.name)
-      inputRef.current.value = userQuery.data.name.split(" ")[0].toLowerCase();
-    resizeInput();
+    if (userQuery.data?.name) {
+      const suggestedSlug = userQuery.data.name.split(" ")[0].toLowerCase();
+      inputRef.current.value = suggestedSlug;
+      resizeInput();
+      testSlug(suggestedSlug).then((available) => {
+        setAvailable(available);
+      });
+    }
   }, [userQuery.data]);
 
   return (
@@ -121,14 +126,14 @@ const ChoosePage: NextPage = () => {
               {available && (
                 <Check
                   size={21}
-                  style={{ marginLeft: 20, marginTop: 4 }}
+                  style={{ marginLeft: 20, marginTop: 8, marginBottom: 4 }}
                   color={colors.secondary}
                 />
               )}
               {!available && (
                 <Cross
-                  size={21}
-                  style={{ marginLeft: 20, left: 5, top: 4 }}
+                  size={28}
+                  style={{ marginLeft: 20, left: 5, marginTop: 5 }}
                   color={colors.red}
                 />
               )}

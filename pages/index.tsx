@@ -1,3 +1,4 @@
+import { MOBILE_BREAKPOINT } from "@/lib/constants";
 import colors from "@/lib/colors";
 import App from "@/components/App";
 import startAuth from "@/db/startAuth";
@@ -14,6 +15,9 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
+    flex-direction: column;
+  }
 `;
 
 const Button = styled.button`
@@ -52,6 +56,10 @@ const Hero = styled.h1`
   color: ${colors.white};
   font-weight: 800;
   margin-bottom: 20px;
+  @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
+    font-size: 50px;
+    text-align: center;
+  }
 `;
 
 const LikesGraphic = styled.div`
@@ -59,6 +67,10 @@ const LikesGraphic = styled.div`
   flex-direction: column;
   align-items: center;
   margin-left: 40px;
+  @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
+    margin-left: 0;
+    margin-top: 20px;
+  }
 `;
 
 const SpotifyLikes = styled.div`
@@ -66,6 +78,9 @@ const SpotifyLikes = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
+  @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
+    width: auto;
+  }
 `;
 
 const SpotifyLikesText = styled.span`
@@ -74,6 +89,9 @@ const SpotifyLikesText = styled.span`
   font-weight: 600;
   margin-left: 10px;
   flex: 1;
+  @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
+    flex: none;
+  }
 `;
 
 const LikeListCard = styled.div`

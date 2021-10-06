@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Fireworks from "@/components/universal/Fireworks";
 import { fadeIn } from "@/lib/animations";
+import { MOBILE_BREAKPOINT } from "@/lib/constants";
 
 const Live = styled.span`
   color: ${colors.black};
@@ -51,6 +52,10 @@ const TitleLink = styled.h1`
   &:hover {
     color: ${colors.secondary};
     cursor: pointer;
+  }
+  @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
+    font-size: 28px;
+    text-align: center;
   }
   ${fadeIn}
 `;

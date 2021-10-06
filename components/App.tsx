@@ -4,6 +4,7 @@ import Image from "next/image";
 import colors from "@/lib/colors";
 import Link from "next/link";
 import Logo from "@/components/universal/Logo";
+import { MOBILE_BREAKPOINT } from "@/lib/constants";
 
 const SafeHydrate = ({ children }) => {
   return (
@@ -14,10 +15,7 @@ const SafeHydrate = ({ children }) => {
 };
 
 const TopBar = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 100vw;
   padding: 20px 20px;
   display: flex;
   flex-direction: row;
@@ -38,21 +36,28 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 0;
+  top: 60px;
   left: 0;
   bottom: 0;
   right: 0;
+`;
+
+const Brand = styled.a`
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const App: React.FC = (props) => {
   return (
     <SafeHydrate>
       <TopBar>
-        <Link href="/">
-          <>
+        <Link href="/" passHref>
+          <Brand>
             <Logo size={30} />
             <Title>likelist.xyz</Title>
-          </>
+          </Brand>
         </Link>
       </TopBar>
       <Content>{props.children}</Content>
