@@ -133,7 +133,7 @@ const MePage: NextPage = () => {
                 <Copy size={30} style={{ transform: "translateY(3px)" }} />
                 <ButtonText>{copied ? "Copied!" : "Copy Link"}</ButtonText>
               </SecondaryButton>
-              <Button href={"https://instagram.com"}>
+              <Button href={"https://instagram.com"} target="_blank">
                 <Image
                   src="/assets/insta.png"
                   layout="fixed"
