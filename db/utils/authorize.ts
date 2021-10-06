@@ -1,11 +1,15 @@
 import { firestore } from "@/admin";
 import { UserTokens } from "@/models/user";
 import Spotify from "@/spotify";
+import SpotifyWebApi from "spotify-web-api-node";
 
 /**
  * Authorizes the API for a given user
  */
-export async function authorize(uid: string): Promise<void> {
+export async function authorize(
+  Spotify: SpotifyWebApi,
+  uid: string
+): Promise<void> {
   try {
     const userTokensDoc = await firestore
       .collection("users")
