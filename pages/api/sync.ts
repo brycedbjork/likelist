@@ -89,7 +89,7 @@ export async function sync(
       const spotifyResponse = await Spotify.createPlaylist(
         `${user.name.split(" ")[0]}'s Likes`,
         {
-          description: `Synced with likelist.xyz 🎵 ${user.slug}.likelist.xyz`,
+          description: `🎵 ${user.slug}.likelist.xyz`,
           public: true,
         }
       );
