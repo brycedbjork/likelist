@@ -1,9 +1,8 @@
-import spotify from "@/spotify";
+import Spotify from "@/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const auth = (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const Spotify = spotify();
     const state = req.query.state as string;
 
     // Scopes to request.

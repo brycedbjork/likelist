@@ -1,5 +1,5 @@
 import { User, UserTokens } from "@/models/user";
-import spotify from "@/spotify";
+import Spotify from "@/spotify";
 import { firestore } from "@/admin";
 import { NextApiRequest, NextApiResponse } from "next";
 import moment from "moment";
@@ -7,7 +7,6 @@ import { auth } from "@/admin";
 
 const token = (req: NextApiRequest, res: NextApiResponse) => {
   try {
-    const Spotify = spotify();
     const code = req.query.code as string;
 
     Spotify.authorizationCodeGrant(code, (error, data) => {

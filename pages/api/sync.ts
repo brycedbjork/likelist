@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import spotify from "@/spotify";
+import Spotify from "@/spotify";
 import { User } from "@/models/user";
 import { firestore } from "@/admin";
 import { authorize } from "@/db/utils/authorize";
@@ -10,7 +10,6 @@ import moment from "moment";
  */
 async function getLikedTracks(): Promise<string[]> {
   try {
-    const Spotify = spotify();
     let offset = 0;
     const limit = 50;
     const response = await Spotify.getMySavedTracks({ offset, limit });
@@ -38,7 +37,6 @@ async function getLikedTracks(): Promise<string[]> {
  */
 async function getTracksFromPlaylist(playlistId: string): Promise<string[]> {
   try {
-    const Spotify = spotify();
     let offset = 0;
     const limit = 50;
     const response = await Spotify.getPlaylistTracks(playlistId, {
@@ -75,10 +73,9 @@ export async function sync(
   res: NextApiResponse
 ): Promise<void> {
   try {
-    const Spotify = spotify();
     const uid = req.query.uid as string;
 
-    await authorize(Spotify, uid);
+    await authorize(uid);
 
     // get user
     const userDoc = await firestore.collection("users").doc(uid).get();
@@ -129,6 +126,8 @@ export async function sync(
         tracksToRemove.push(syncedTrack);
       }
     }
+
+    console.log(tracksToAdd);
 
     // add tracks
     let i = 0;
