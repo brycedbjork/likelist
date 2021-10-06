@@ -6,7 +6,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMutation } from "react-query";
-import styled from "styled-components";
+import Head from "next/head";
 import RobotsWorking from "@/components/RobotsWorking";
 
 const LinkPage: NextPage = () => {
@@ -27,9 +27,15 @@ const LinkPage: NextPage = () => {
   }, [code, state]);
 
   return (
-    <App>
-      <RobotsWorking title="Connecting Spotify" />
-    </App>
+    <>
+      <Head>
+        <title>likelist.xyz - Connecting Spotify</title>
+        <meta name="robots" content="noindex" />
+      </Head>
+      <App>
+        <RobotsWorking title="Connecting Spotify" />
+      </App>
+    </>
   );
 };
 

@@ -15,6 +15,7 @@ import { fadeIn } from "@/lib/animations";
 import { MOBILE_BREAKPOINT } from "@/lib/constants";
 import { rgba } from "polished";
 import { useCallback, useState } from "react";
+import Head from "next/head";
 
 const Live = styled.span`
   color: ${colors.black};
@@ -109,35 +110,44 @@ const MePage: NextPage = () => {
   }, [userQuery]);
 
   return (
-    <App>
-      {!userQuery.isLoading && userQuery.data && (
-        <>
-          <Fireworks />
-          <Subtitle>
-            Your likelist is <Live>LIVE</Live>
-          </Subtitle>
-          <Link href={`https://${userQuery.data.slug}.likelist.xyz`}>
-            <TitleLink>{userQuery.data.slug}.likelist.xyz</TitleLink>
-          </Link>
-          <Buttons>
-            <SecondaryButton onClick={copyLink}>
-              <Copy size={30} style={{ transform: "translateY(3px)" }} />
-              <ButtonText>{copied ? "Copied!" : "Copy Link"}</ButtonText>
-            </SecondaryButton>
-            <Button href={"https://instagram.com"}>
-              <Image
-                src="/assets/insta.png"
-                layout="fixed"
-                height={30}
-                width={30}
-                objectFit="contain"
-              />
-              <ButtonText>Add to Bio</ButtonText>
-            </Button>
-          </Buttons>
-        </>
-      )}
-    </App>
+    <>
+      <Head>
+        {userQuery.isLoading && <title>likelist.xyz - LIVE</title>}
+        {userQuery.data && (
+          <title>{userQuery.data.slug}.likelist.xyz - LIVE</title>
+        )}
+        <meta name="robots" content="noindex" />
+      </Head>
+      <App>
+        {!userQuery.isLoading && userQuery.data && (
+          <>
+            <Fireworks />
+            <Subtitle>
+              Your likelist is <Live>LIVE</Live>
+            </Subtitle>
+            <Link href={`https://${userQuery.data.slug}.likelist.xyz`}>
+              <TitleLink>{userQuery.data.slug}.likelist.xyz</TitleLink>
+            </Link>
+            <Buttons>
+              <SecondaryButton onClick={copyLink}>
+                <Copy size={30} style={{ transform: "translateY(3px)" }} />
+                <ButtonText>{copied ? "Copied!" : "Copy Link"}</ButtonText>
+              </SecondaryButton>
+              <Button href={"https://instagram.com"}>
+                <Image
+                  src="/assets/insta.png"
+                  layout="fixed"
+                  height={30}
+                  width={30}
+                  objectFit="contain"
+                />
+                <ButtonText>Add to Bio</ButtonText>
+              </Button>
+            </Buttons>
+          </>
+        )}
+      </App>
+    </>
   );
 };
 

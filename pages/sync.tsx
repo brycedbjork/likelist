@@ -6,7 +6,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useMutation } from "react-query";
-import styled from "styled-components";
+import Head from "next/head";
 import RobotsWorking from "@/components/RobotsWorking";
 import startSync from "@/db/startSync";
 
@@ -25,9 +25,15 @@ const SyncPage: NextPage = () => {
   }, [uid]);
 
   return (
-    <App>
-      <RobotsWorking title="Syncing your music" />
-    </App>
+    <>
+      <Head>
+        <title>likelist.xyz - Syncing your music</title>
+        <meta name="robots" content="noindex" />
+      </Head>
+      <App>
+        <RobotsWorking title="Syncing your music" />
+      </App>
+    </>
   );
 };
 

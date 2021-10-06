@@ -14,6 +14,7 @@ import { rgba } from "polished";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import styled from "styled-components";
+import Head from "next/head";
 
 const InputWrapper = styled.div`
   border-radius: 10px;
@@ -103,6 +104,10 @@ const ChoosePage: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>likelist.xyz - Choose your music link</title>
+        <meta name="robots" content="noindex" />
+      </Head>
       <App>
         {!userQuery.isLoading && userQuery.data && (
           <>

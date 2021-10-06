@@ -9,6 +9,7 @@ import Logo from "@/components/universal/Logo";
 import { rgba } from "polished";
 import Loading from "@/components/universal/Loading";
 import Check from "@/components/universal/Check";
+import Head from "next/head";
 
 const Wrapper = styled.div`
   display: flex;
@@ -129,59 +130,82 @@ const BenefitText = styled.p`
 
 const HomePage: NextPage = () => {
   return (
-    <App>
-      <Wrapper>
-        <Section>
-          <Hero>
-            Share your
-            <br />
-            liked songs
-          </Hero>
-          <Button onClick={startAuth}>
-            <ButtonText>Continue with</ButtonText>
-            <Image
-              src="/assets/spotify.png"
-              layout="fixed"
-              height={30}
-              width={100}
-              objectFit="contain"
-            />
-          </Button>
-        </Section>
-        <Section>
-          <LikesGraphic>
-            <SpotifyLikes>
+    <>
+      <Head>
+        <title>likelist.xyz – Share your liked songs</title>
+        <meta
+          name="description"
+          content={
+            "The easiest way to share your liked songs: create a synced Spotify playlist and get a personal music link!"
+          }
+        />
+        <meta name="url" content={`https://likelist.xyz`} />
+        <meta name="og:title" content={"likelist.xyz"} />
+        <meta
+          name="og:description"
+          content={
+            "The easiest way to share your liked songs: create a synced Spotify playlist and get a personal music link!"
+          }
+        />
+        <meta
+          name="og:url"
+          content={"https://likelist.xyz - Share your liked songs"}
+        />
+      </Head>
+      <App>
+        <Wrapper>
+          <Section>
+            <Hero>
+              Share your
+              <br />
+              liked songs
+            </Hero>
+            <Button onClick={startAuth}>
+              <ButtonText>Continue with</ButtonText>
               <Image
-                src={"/assets/liked-songs.png"}
+                src="/assets/spotify.png"
                 layout="fixed"
-                height={40}
-                width={40}
+                height={30}
+                width={100}
+                objectFit="contain"
               />
-              <SpotifyLikesText>Liked Songs</SpotifyLikesText>
-            </SpotifyLikes>
-            <Loading
-              color={colors.primary}
-              size={60}
-              style={{ marginTop: 15, marginBottom: 20 }}
-            />
-            <LikeListCard>
-              <LikeListLink>
-                <Logo size={20} style={{ marginRight: 10 }} />{" "}
-                bryce.likelist.xyz
-              </LikeListLink>
-              <Benefit>
-                <Check size={16} color={rgba(colors.white, 0.8)} />
-                <BenefitText>synced Spotify playlist</BenefitText>
-              </Benefit>
-              <Benefit>
-                <Check size={16} color={rgba(colors.white, 0.8)} />
-                <BenefitText>personal music link</BenefitText>
-              </Benefit>
-            </LikeListCard>
-          </LikesGraphic>
-        </Section>
-      </Wrapper>
-    </App>
+            </Button>
+          </Section>
+          <Section>
+            <LikesGraphic>
+              <SpotifyLikes>
+                <Image
+                  src={"/assets/liked-songs.png"}
+                  layout="fixed"
+                  height={40}
+                  width={40}
+                />
+                <SpotifyLikesText>Liked Songs</SpotifyLikesText>
+              </SpotifyLikes>
+              <Loading
+                color={colors.primary}
+                size={60}
+                style={{ marginTop: 15, marginBottom: 20 }}
+              />
+              <LikeListCard>
+                <LikeListLink>
+                  <Logo size={20} style={{ marginRight: 10 }} />{" "}
+                  bryce.likelist.xyz
+                </LikeListLink>
+                <Benefit>
+                  <Check size={16} color={rgba(colors.white, 0.8)} />
+                  <BenefitText>synced Spotify playlist</BenefitText>
+                </Benefit>
+                <Benefit>
+                  <Check size={16} color={rgba(colors.white, 0.8)} />
+                  <BenefitText>personal music link</BenefitText>
+                </Benefit>
+              </LikeListCard>
+            </LikesGraphic>
+          </Section>
+        </Wrapper>
+      </App>
+    </>
   );
 };
 

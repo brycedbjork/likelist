@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import RobotsWorking from "@/components/RobotsWorking";
 import startSync from "@/db/startSync";
 import getSlugUser from "@/db/getSlugUser";
+import Head from "next/head";
 
 const GoPage: NextPage = () => {
   const router = useRouter();
@@ -18,9 +19,15 @@ const GoPage: NextPage = () => {
   });
 
   return (
-    <App>
-      <RobotsWorking title="Syncing likelist" />
-    </App>
+    <>
+      <Head>
+        <title>{slug}.likelist.xyz</title>
+        <meta name="robots" content="noindex" />
+      </Head>
+      <App>
+        <RobotsWorking title="Syncing likelist" />
+      </App>
+    </>
   );
 };
 
