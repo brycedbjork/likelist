@@ -58,12 +58,12 @@ const token = (req: NextApiRequest, res: NextApiResponse) => {
           .doc("tokens")
           .set(tokens, { merge: true });
 
-        res.json({ token: firebaseToken });
+        return res.status(200).json({ token: firebaseToken });
       });
     });
   } catch (error) {
     console.log(error);
-    res.json({ error });
+    return res.status(500).json({ error });
   }
 };
 export default token;

@@ -5,7 +5,6 @@ import { getDoc, doc } from "@firebase/firestore";
 const getUser = (userId: string) => async (): Promise<User | null> => {
   try {
     const userDoc = await getDoc(doc(firestore, `users/${userId}`));
-    console.log(userDoc.data());
     if (userDoc.exists) return userDoc.data() as User;
     else return null;
   } catch (error) {

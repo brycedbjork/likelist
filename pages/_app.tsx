@@ -1,4 +1,4 @@
-import colors from "@/colors";
+import colors from "@/lib/colors";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useRef } from "react";
@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     html { font-family: 'Inter var', sans-serif; }
   }
   body {
-    background-color: #ffffff;
+    background-color: ${colors.black};
   }
   * {
     box-sizing: border-box;
@@ -25,16 +25,6 @@ const GlobalStyle = createGlobalStyle`
   textarea:focus,
   button:focus {
     outline: none;
-  }
-  .cover {
-    object-fit: cover;
-    width: 100% !important;
-    position: relative !important;
-    height: unset !important;
-  }
-  .contain {
-    object-fit: contain;
-    object-position: left;
   }
 `;
 

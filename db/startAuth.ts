@@ -4,8 +4,7 @@ const startAuth = () => {
   // generate uuid
   const authState = uuidv4();
   localStorage.setItem("authState", authState);
-  console.log("should set", authState);
-  window.open(`/api/auth?state=${authState}`);
+  location.href = `/api/auth?state=${authState}`;
 };
 
 export default startAuth;
