@@ -68,9 +68,9 @@ const LikesGraphic = styled.div`
   flex-direction: column;
   align-items: center;
   margin-left: 40px;
+  margin-top: 30px;
   @media screen and (max-width: ${MOBILE_BREAKPOINT}px) {
     margin-left: 0;
-    margin-top: 20px;
   }
 `;
 
