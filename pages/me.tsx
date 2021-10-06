@@ -9,9 +9,12 @@ import { useQuery } from "react-query";
 import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
+import Copy from "@/components/universal/Copy";
 import Fireworks from "@/components/universal/Fireworks";
 import { fadeIn } from "@/lib/animations";
 import { MOBILE_BREAKPOINT } from "@/lib/constants";
+import { rgba } from "polished";
+import { useCallback, useState } from "react";
 
 const Live = styled.span`
   color: ${colors.black};
@@ -19,6 +22,14 @@ const Live = styled.span`
   padding: 5px 8px;
   border-radius: 10px;
   margin-left: 5px;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 `;
 
 const Button = styled.a`
@@ -34,7 +45,32 @@ const Button = styled.a`
   justify-content: row;
   align-items: center;
   transition: all 100ms cubic-bezier(0.21, 0.94, 0.64, 0.99);
-  margin-top: 10px;
+  margin: 10px 15px;
+  text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.03);
+  }
+`;
+
+const ButtonText = styled.span`
+  margin-left: 10px;
+`;
+
+const SecondaryButton = styled.a`
+  background-color: ${rgba(colors.white, 0.1)};
+  color: ${colors.white};
+  padding: 15px 20px;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  font-size: 21px;
+  font-weight: 500;
+  display: flex;
+  justify-content: row;
+  align-items: center;
+  transition: all 100ms cubic-bezier(0.21, 0.94, 0.64, 0.99);
+  margin: 10px 15px;
   text-decoration: none;
   &:hover {
     cursor: pointer;
@@ -60,15 +96,17 @@ const TitleLink = styled.h1`
   ${fadeIn}
 `;
 
-const ButtonText = styled.span`
-  margin-left: 10px;
-`;
-
 const MePage: NextPage = () => {
   const router = useRouter();
   const uid = router.query.uid as string;
 
   const userQuery = useQuery(["user", uid], getUser(uid));
+
+  const [copied, setCopied] = useState(false);
+  const copyLink = useCallback(() => {
+    window.navigator.clipboard.writeText(`${userQuery.data.slug}.likelist.xyz`);
+    setCopied(true);
+  }, [userQuery]);
 
   return (
     <App>
@@ -81,16 +119,22 @@ const MePage: NextPage = () => {
           <Link href={`https://${userQuery.data.slug}.likelist.xyz`}>
             <TitleLink>{userQuery.data.slug}.likelist.xyz</TitleLink>
           </Link>
-          <Button href={"https://instagram.com"}>
-            <Image
-              src="/assets/insta.png"
-              layout="fixed"
-              height={30}
-              width={30}
-              objectFit="contain"
-            />
-            <ButtonText>Add to Bio</ButtonText>
-          </Button>
+          <Buttons>
+            <SecondaryButton onClick={copyLink}>
+              <Copy size={30} style={{ transform: "translateY(3px)" }} />
+              <ButtonText>{copied ? "Copied!" : "Copy Link"}</ButtonText>
+            </SecondaryButton>
+            <Button href={"https://instagram.com"}>
+              <Image
+                src="/assets/insta.png"
+                layout="fixed"
+                height={30}
+                width={30}
+                objectFit="contain"
+              />
+              <ButtonText>Add to Bio</ButtonText>
+            </Button>
+          </Buttons>
         </>
       )}
     </App>
