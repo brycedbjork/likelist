@@ -127,8 +127,6 @@ export async function sync(
       }
     }
 
-    console.log(tracksToAdd);
-
     // add tracks
     let i = 0;
     const addTracks = async (tracks: string[]): Promise<void> => {

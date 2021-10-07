@@ -79,11 +79,12 @@ const SecondaryButton = styled.a`
   }
 `;
 
-const TitleLink = styled.h1`
+const TitleLink = styled.a`
   font-size: 89px;
   color: ${colors.white};
   font-weight: 900;
   margin: 10px 0;
+  text-decoration: none;
   text-align: center;
   transition: all 100ms cubic-bezier(0.21, 0.94, 0.64, 0.99);
   &:hover {
@@ -125,9 +126,14 @@ const MePage: NextPage = () => {
             <Subtitle>
               Your likelist is <Live>LIVE</Live>
             </Subtitle>
-            <Link href={`https://${userQuery.data.slug}.likelist.xyz`}>
-              <TitleLink>{userQuery.data.slug}.likelist.xyz</TitleLink>
-            </Link>
+
+            <TitleLink
+              target="_blank"
+              href={`https://open.spotify.com/playlist/${userQuery.data.syncedPlaylistId}`}
+            >
+              {userQuery.data.slug}.likelist.xyz
+            </TitleLink>
+
             <Buttons>
               <SecondaryButton onClick={copyLink}>
                 <Copy size={30} style={{ transform: "translateY(3px)" }} />
