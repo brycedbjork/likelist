@@ -4,6 +4,7 @@ import { User } from "@/models/user";
 import { firestore } from "@/admin";
 import { authorize } from "@/db/utils/authorize";
 import moment from "moment";
+import { withSentry } from "@sentry/nextjs";
 
 /**
  * Get liked track uri's
@@ -174,4 +175,4 @@ export async function sync(
   }
 }
 
-export default sync;
+export default withSentry(sync);

@@ -1,5 +1,6 @@
 import Spotify from "@/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
+import { withSentry } from "@sentry/nextjs";
 
 const auth = (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -21,4 +22,4 @@ const auth = (req: NextApiRequest, res: NextApiResponse) => {
   }
 };
 
-export default auth;
+export default withSentry(auth);

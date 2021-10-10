@@ -3,6 +3,7 @@ import Spotify from "@/spotify";
 import { firestore } from "@/admin";
 import { NextApiRequest, NextApiResponse } from "next";
 import moment from "moment";
+import { withSentry } from "@sentry/nextjs";
 import { auth } from "@/admin";
 
 const token = (req: NextApiRequest, res: NextApiResponse) => {
@@ -69,4 +70,4 @@ const token = (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({ error: JSON.stringify(error) });
   }
 };
-export default token;
+export default withSentry(token);
