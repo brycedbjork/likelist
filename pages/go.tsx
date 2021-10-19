@@ -16,6 +16,9 @@ const GoPage: NextPage = () => {
       startSync(user.id).catch((e) => console.log(e));
       router.push(`https://open.spotify.com/playlist/${user.syncedPlaylistId}`);
     },
+    onError: () => {
+      router.push(`https://likelist.xyz`);
+    },
   });
 
   return (
