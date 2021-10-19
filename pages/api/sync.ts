@@ -66,107 +66,107 @@ async function getTracksFromPlaylist(playlistId: string): Promise<string[]> {
   }
 }
 
+export async function syncUser(uid: string) {
+  await authorize(uid);
+
+  // get user
+  const userDoc = await firestore.collection("users").doc(uid).get();
+  const user = userDoc.data() as User;
+
+  const likedTracks = await getLikedTracks();
+
+  let syncedId = user.syncedPlaylistId;
+
+  const createPlaylist = async () => {
+    const spotifyResponse = await Spotify.createPlaylist(
+      `${user.name.split(" ")[0]}'s Likes`,
+      {
+        description: `🎵 ${user.slug}.likelist.xyz`,
+        public: true,
+      }
+    );
+    syncedId = spotifyResponse.body.id;
+    await userDoc.ref.update({ syncedPlaylistId: syncedId });
+  };
+
+  // create playlist if no saved synced id
+  if (!syncedId) {
+    await createPlaylist();
+  } else {
+    // check to make sure synced playlist exists, otherwise recreate it
+    try {
+      const playlist = await Spotify.getPlaylist(syncedId);
+      if (!playlist) await createPlaylist();
+    } catch (e) {
+      await createPlaylist();
+    }
+  }
+
+  const syncedTracks = await getTracksFromPlaylist(syncedId);
+
+  // check what needs to be updated
+  const tracksToAdd: string[] = [];
+  const tracksToRemove: string[] = [];
+  for (const likedTrack of likedTracks) {
+    if (!syncedTracks.includes(likedTrack)) {
+      tracksToAdd.push(likedTrack);
+    }
+  }
+  for (const syncedTrack of syncedTracks) {
+    if (!likedTracks.includes(syncedTrack)) {
+      tracksToRemove.push(syncedTrack);
+    }
+  }
+
+  // add tracks
+  let i = 0;
+  const addTracks = async (tracks: string[]): Promise<void> => {
+    if (tracks.length === 0) return;
+    if (tracks.length > 100) {
+      await Spotify.addTracksToPlaylist(syncedId, tracks.slice(0, 100), {
+        position: i,
+      });
+      i += 100;
+      await addTracks(tracks.slice(100));
+    } else {
+      await Spotify.addTracksToPlaylist(syncedId, tracks, {
+        position: i,
+      });
+    }
+    return;
+  };
+  await addTracks(tracksToAdd);
+
+  // remove tracks
+  const removeTracks = async (tracks: string[]): Promise<void> => {
+    if (tracks.length === 0) return;
+    if (tracks.length > 100) {
+      await Spotify.removeTracksFromPlaylist(
+        syncedId,
+        tracks.slice(0, 100).map((track) => ({ uri: track }))
+      );
+      await removeTracks(tracks.slice(100));
+    } else {
+      await Spotify.removeTracksFromPlaylist(
+        syncedId,
+        tracks.map((track) => ({ uri: track }))
+      );
+    }
+    return;
+  };
+  await removeTracks(tracksToRemove);
+
+  userDoc.ref.update({ lastSynced: moment().unix() });
+}
+
 /**
  * Gets tokens from Spotify
  */
-export async function sync(
-  req: NextApiRequest,
-  res: NextApiResponse
-): Promise<void> {
+async function sync(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   try {
     const uid = req.query.uid as string;
 
-    await authorize(uid);
-
-    // get user
-    const userDoc = await firestore.collection("users").doc(uid).get();
-    const user = userDoc.data() as User;
-
-    const likedTracks = await getLikedTracks();
-
-    let syncedId = user.syncedPlaylistId;
-
-    const createPlaylist = async () => {
-      const spotifyResponse = await Spotify.createPlaylist(
-        `${user.name.split(" ")[0]}'s Likes`,
-        {
-          description: `🎵 ${user.slug}.likelist.xyz`,
-          public: true,
-        }
-      );
-      console.log("created", spotifyResponse);
-      syncedId = spotifyResponse.body.id;
-      await userDoc.ref.update({ syncedPlaylistId: syncedId });
-    };
-
-    // create playlist if no saved synced id
-    if (!syncedId) {
-      await createPlaylist();
-    } else {
-      // check to make sure synced playlist exists, otherwise recreate it
-      try {
-        const playlist = await Spotify.getPlaylist(syncedId);
-        if (!playlist) await createPlaylist();
-      } catch (e) {
-        await createPlaylist();
-      }
-    }
-
-    const syncedTracks = await getTracksFromPlaylist(syncedId);
-
-    // check what needs to be updated
-    const tracksToAdd: string[] = [];
-    const tracksToRemove: string[] = [];
-    for (const likedTrack of likedTracks) {
-      if (!syncedTracks.includes(likedTrack)) {
-        tracksToAdd.push(likedTrack);
-      }
-    }
-    for (const syncedTrack of syncedTracks) {
-      if (!likedTracks.includes(syncedTrack)) {
-        tracksToRemove.push(syncedTrack);
-      }
-    }
-
-    // add tracks
-    let i = 0;
-    const addTracks = async (tracks: string[]): Promise<void> => {
-      if (tracks.length === 0) return;
-      if (tracks.length > 100) {
-        await Spotify.addTracksToPlaylist(syncedId, tracks.slice(0, 100), {
-          position: i,
-        });
-        i += 100;
-        await addTracks(tracks.slice(100));
-      } else {
-        await Spotify.addTracksToPlaylist(syncedId, tracks, {
-          position: i,
-        });
-      }
-      return;
-    };
-    await addTracks(tracksToAdd);
-
-    // remove tracks
-    const removeTracks = async (tracks: string[]): Promise<void> => {
-      if (tracks.length === 0) return;
-      if (tracks.length > 100) {
-        await Spotify.removeTracksFromPlaylist(
-          syncedId,
-          tracks.slice(0, 100).map((track) => ({ uri: track }))
-        );
-        await removeTracks(tracks.slice(100));
-      } else {
-        await Spotify.removeTracksFromPlaylist(
-          syncedId,
-          tracks.map((track) => ({ uri: track }))
-        );
-      }
-      return;
-    };
-    await removeTracks(tracksToRemove);
-
-    userDoc.ref.update({ lastSynced: moment().unix() });
+    await syncUser(uid);
 
     res.status(200).json({ success: true });
   } catch (error) {
