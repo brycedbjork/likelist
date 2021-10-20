@@ -8,6 +8,7 @@ import getSlugUser from "@/db/getSlugUser";
 import Head from "next/head";
 import { User } from "@/models/user";
 import { firestore } from "@/admin";
+import slugify from "@/lib/slugify";
 
 type Props = {
   user: User;
@@ -32,7 +33,11 @@ const GoPage: NextPage<Props> = (props) => {
   return (
     <>
       <Head>
-        <title>{user.name}</title>
+        {user && <title>{`${slugify(user.name)}'s Likes'`}</title>}
+        {user && (
+          <meta name="description" content={`Synced with likelist.xyz`} />
+        )}
+        {user && <meta name="description" content={user.image} />}
         <meta name="robots" content="noindex" />
       </Head>
       <App>
