@@ -1,5 +1,6 @@
 import Spotify from "@/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
+
 import { withSentry } from "@sentry/nextjs";
 
 const auth = (req: NextApiRequest, res: NextApiResponse) => {
