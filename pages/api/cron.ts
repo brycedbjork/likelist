@@ -11,7 +11,10 @@ async function cron(req: NextApiRequest, res: NextApiResponse) {
 
       if (authorization === `Bearer ${process.env.API_SECRET_KEY}`) {
         // get all users
-        const usersQuery = await firestore.collection("users").get();
+        const usersQuery = await firestore
+          .collection("users")
+          .orderBy("lastSynced", "asc")
+          .get();
 
         // for each user -> run sync
         for (const userDoc of usersQuery.docs) {
