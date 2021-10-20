@@ -1,7 +1,7 @@
 {
   "functions": {
     "api/cron.ts": {
-      "maxDuration": 6000
+      "maxDuration": 900
     }
   }
 }
