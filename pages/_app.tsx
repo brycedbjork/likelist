@@ -122,6 +122,25 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
+        <title>likelist.xyz – Share your liked songs</title>
+        <meta
+          name="description"
+          content={
+            "The easiest way to share your liked songs: create a synced Spotify playlist and get a personal music link!"
+          }
+        />
+        <meta name="url" content={`https://likelist.xyz`} />
+        <meta name="og:title" content={"likelist.xyz"} />
+        <meta
+          name="og:description"
+          content={
+            "The easiest way to share your liked songs: create a synced Spotify playlist and get a personal music link!"
+          }
+        />
+        <meta
+          name="og:url"
+          content={"https://likelist.xyz - Share your liked songs"}
+        />
         <meta name="image" content="https://likelist.xyz/assets/promo.png" />
         <meta name="og:image" content="https://likelist.xyz/assets/promo.png" />
       </Head>
