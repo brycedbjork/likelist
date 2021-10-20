@@ -128,7 +128,7 @@ const BenefitText = styled.p`
   margin-left: 10px;
 `;
 
-const HomePage: NextPage = () => {
+const HomePage: NextPage = (props) => {
   return (
     <>
       <Head>
