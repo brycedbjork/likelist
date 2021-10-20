@@ -122,6 +122,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
+        <meta name="image" content="/assets/promo.png" />
+        <meta name="og:image" content="/assets/promo.png" />
       </Head>
       <GlobalStyle />
       <QueryClientProvider client={queryClientRef.current}>

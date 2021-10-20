@@ -15,6 +15,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import styled from "styled-components";
 import Head from "next/head";
+import slugify from "@/lib/slugify";
 
 const InputWrapper = styled.div`
   border-radius: 10px;
@@ -93,7 +94,7 @@ const ChoosePage: NextPage = () => {
 
   useEffect(() => {
     if (userQuery.data?.name) {
-      const suggestedSlug = userQuery.data.name.split(" ")[0].toLowerCase();
+      const suggestedSlug = slugify(userQuery.data.name);
       inputRef.current.value = suggestedSlug;
       resizeInput();
       testSlug(suggestedSlug).then((available) => {

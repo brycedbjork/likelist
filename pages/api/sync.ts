@@ -5,6 +5,7 @@ import { firestore } from "@/admin";
 import { authorize } from "@/db/utils/authorize";
 import moment from "moment";
 import { withSentry } from "@sentry/nextjs";
+import slugify from "@/lib/slugify";
 
 /**
  * Get liked track uri's
@@ -79,7 +80,7 @@ export async function syncUser(uid: string) {
 
   const createPlaylist = async () => {
     const spotifyResponse = await Spotify.createPlaylist(
-      `${user.name.split(" ")[0]}'s Likes`,
+      `${slugify(user.name)}'s Likes`,
       {
         description: `🎵 ${user.slug}.likelist.xyz`,
         public: true,

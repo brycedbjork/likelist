@@ -4,12 +4,17 @@ const serviceAccount = JSON.parse(
   process.env.FIREBASE_SERVICE_ACCOUNT_KEY as string
 );
 
-if (admin.apps.length < 1)
+const initialized = admin.apps.length > 0;
+if (!initialized) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
     databaseURL: "https://likelistxyz.firebaseio.com",
   });
+}
 
 export const firestore = admin.firestore();
-firestore.settings({ ignoreUndefinedProperties: true });
+if (!initialized) {
+  firestore.settings({ ignoreUndefinedProperties: true });
+}
+
 export const auth = admin.auth();

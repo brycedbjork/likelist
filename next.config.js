@@ -19,7 +19,7 @@ const moduleExports = {
           },
         ],
         source: "/",
-        destination: `/go?slug=:slug`,
+        destination: `/go/:slug`,
       },
     ];
 
